@@ -1,3 +1,4 @@
+import { base } from '$app/paths';
 // DOCCT Game Engine — Pure logic with Web Audio API
 // Forensically matched to the original at docct.pages.dev
 
@@ -249,9 +250,9 @@ function updateBestScores(mode: string, session: { fastest: number; streaks: num
 // ── Voice pack path map ───────────────────────────────────────────────────
 
 const VOICE_PACK_PATHS: Record<string, string> = {
-  rose: '/rose',
-  rose_fast: '/rose_fast',
-  jenny: '/jenny',
+  rose: `${base}/rose`,
+  rose_fast: `${base}/rose_fast`,
+  jenny: `${base}/jenny`,
 };
 
 // ── Engine Factory ─────────────────────────────────────────────────────────
@@ -389,7 +390,7 @@ export function createEngine(overrides?: Partial<GameSettings>): Engine {
     if (beepBuffer) return;
     try {
       const ctx = getAudioContext();
-      const response = await fetch('/beep.wav');
+      const response = await fetch(`${base}/beep.wav`);
       const arrayBuffer = await response.arrayBuffer();
       beepBuffer = await ctx.decodeAudioData(arrayBuffer);
     } catch { /* ignore */ }
@@ -401,7 +402,7 @@ export function createEngine(overrides?: Partial<GameSettings>): Engine {
     const buffers: (AudioBuffer | null)[] = [];
     for (let i = 1; i <= 8; i++) {
       try {
-        const response = await fetch(`/farts/fart${i}.mp3`);
+        const response = await fetch(`${base}/farts/fart${i}.mp3`);
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
         buffers.push(audioBuffer);
